@@ -67,10 +67,10 @@ export const authOptions: NextAuthOptions = {
     }
   },
   pages: {
-    signIn: 'signIn'
+    signIn: '/signIn'
   },
   session: {
-  
+    strategy:"jwt"
   },
   secret: process.env.NEXTAUTH_SECRET
 }
