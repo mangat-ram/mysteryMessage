@@ -46,6 +46,7 @@ export async function GET(request: Request){
       )
 
   } catch (error) {
+    console.log("An unexpected Error Occurred: ",error);
     return Response.json(
         {
           success:false,
