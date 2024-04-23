@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import * as z from "zod";
-import { useDebounceValue } from "usehooks-ts";
+import { useDebounceCallback } from "usehooks-ts";
 import { useToast } from "@/components/ui/use-toast";
 import axios,{AxiosError} from "axios";
 import React, { useEffect, useState } from 'react'
@@ -24,14 +24,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react"
 
-const Page = () => {
+const SignUpPage = () => {
 
   const [username,setUsername] = useState("");
   const [usernameMessage, setUsernameMessage] = useState("");
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
   const [isSubmitting,setIsSubmitting] = useState(false);
 
-  const debouncedUsername = useDebounceValue(username,300);
+  const debouncedUsername = useDebounceCallback(setUsername,400);
   const { toast } = useToast();
   const router = useRouter();
 
@@ -46,11 +46,11 @@ const Page = () => {
 
   useEffect(() => {
     const checkUsernameUnique = async () => {
-      if(debouncedUsername){
+      if(username){
         setIsCheckingUsername(true);
         setUsernameMessage("");
         try {
-          const res = await axios.get(`/api/checkUniqueUser?username=${debouncedUsername}`)
+          const res = await axios.get(`/api/checkUniqueUser?username=${username}`)
           setUsernameMessage(res.data.message)
         } catch (error) {
           const axiosError = error as AxiosError<ApiResponse>;
@@ -63,7 +63,7 @@ const Page = () => {
       }
     }
     checkUsernameUnique();
-  }, [debouncedUsername])
+  }, [username])
 
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     setIsSubmitting(true)
@@ -113,10 +113,12 @@ const Page = () => {
                       {...field}
                       onChange={(e) => {
                         field.onChange(e)
-                        setUsername(e.target.value)
+                        debouncedUsername(e.target.value)
                       }} 
                     />
                   </FormControl>
+                    {isCheckingUsername && <Loader2 className="animate-spin"/>}
+                    <p className={`text-sm ${usernameMessage === "username is available" ? 'text-green-500' : 'text-red-600'}`}>{usernameMessage}</p>
                   <FormMessage />
                 </FormItem>
               )}
@@ -170,4 +172,4 @@ const Page = () => {
   )
 }
 
-export default Page
+export default SignUpPage
