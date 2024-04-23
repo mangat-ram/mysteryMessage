@@ -5,9 +5,16 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 import * as z from "zod";
 
-import React from 'react'
+import React, { useState } from 'react'
 
 const Page = () => {
+
+  const [username,setUsername] = useState("");
+  const [usernameMessage, setUsernameMessage] = useState("");
+  const [isCheckingUsername, setIsCheckingUsername] = useState(false);
+  const [isSubmitting,setIsSubmitting] = useState(false);
+  
+
   return (
     <div>Page</div>
   )
