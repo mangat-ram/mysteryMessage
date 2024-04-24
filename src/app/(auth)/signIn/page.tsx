@@ -33,10 +33,22 @@ const SignIn = () => {
   })
 
   const submitLogin = async (data: z.infer<typeof signInSchemaVal>) => {
-    await signIn('credentials',{
+    const result = await signIn('credentials',{
+      redirect:false,
       identifier: data.identifier,
       password: data.password
     })
+    if(result?.error){
+      toast({
+        title:"Login Failed",
+        description:"Incorrect Username or Password!",
+        variant:"destructive"
+      })
+    }
+
+    if(result?.url){
+      router.replace('/dashboard')
+    }
   }
 
 
