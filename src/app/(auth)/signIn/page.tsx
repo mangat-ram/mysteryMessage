@@ -1,3 +1,5 @@
+"use client";
+
 import { useToast } from '@/components/ui/use-toast';
 import { signInSchemaVal } from '@/schemas/signInSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
