@@ -1,8 +1,24 @@
-import React from 'react'
+import React from "react"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
 
 const MessageCard = () => {
   return (
-    <div>MessageCard</div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Card Title</CardTitle>
+        <CardDescription>Card Description</CardDescription>
+      </CardHeader>
+      <CardContent>
+      </CardContent>
+    </Card>
   )
 }
 
