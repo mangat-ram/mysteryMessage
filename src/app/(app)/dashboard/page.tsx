@@ -7,7 +7,7 @@ import { ApiResponse } from "@/types/ApiResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
-import React, { useCallback, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { useForm } from "react-hook-form";
 
 const Dashboard = () => {
@@ -47,6 +47,37 @@ const Dashboard = () => {
       setIsSwitchLoading(false)
     }
   },[setValue])
+
+  const fetchMessages = useCallback( async (refresh:boolean = false) => {
+    setIsLoading(true)
+    setIsSwitchLoading(false)
+    try {
+      const res = await axios.get<ApiResponse>('/api/getMessages')
+      setMessages(res.data.messages || [])
+      if(refresh){
+        toast({
+          title:"Refreshed Messages",
+          description:"Showing latest messages",
+        })
+      }
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiResponse>
+      toast({
+        title: "Error",
+        description:"Failed to fetch message Settings",
+        variant:"destructive"
+      })
+    }finally{
+      setIsLoading(false)
+      setIsSwitchLoading(false)
+    }
+  },[setIsLoading, setMessages])
+
+  useEffect(() => {
+    if(!session || !session.user) return;
+    fetchMessages()
+    fetchAcceptMessages()
+  },[session,setValue,fetchAcceptMessages,fetchMessages])
 
   
 
