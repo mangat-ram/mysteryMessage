@@ -41,11 +41,19 @@ const SignIn = () => {
       password: data.password
     })
     if(result?.error){
-      toast({
-        title:"Login Failed",
-        description:"Incorrect Username or Password!",
-        variant:"destructive"
-      })
+      if (result.error === 'CredentialsSignin') {
+        toast({
+          title: 'Login Failed',
+          description: 'Incorrect username or password',
+          variant: 'destructive',
+        });
+      }else{
+        toast({
+          title:"Login Failed",
+          description:"Incorrect Username or Password!",
+          variant:"destructive"
+        })
+      }
     }
 
     if(result?.url){
