@@ -46,7 +46,7 @@ const Dashboard = () => {
       const axiosError = error as AxiosError<ApiResponse>
       toast({
         title: "Error",
-        description:"Failed to fetch message Settings",
+        description:axiosError.response?.data.message ?? "Failed to fetch message Settings",
         variant:"destructive"
       })
     }finally{
@@ -70,7 +70,7 @@ const Dashboard = () => {
       const axiosError = error as AxiosError<ApiResponse>
       toast({
         title: "Error",
-        description:"Failed to fetch message Settings",
+        description: axiosError.response?.data.message ?? "Failed to fetch message Settings",
         variant:"destructive"
       })
     }finally{
@@ -97,7 +97,7 @@ const Dashboard = () => {
       const axiosError = error as AxiosError<ApiResponse>
       toast({
         title: "Error",
-        description:"Failed to switch message status",
+        description: axiosError.response?.data.message ?? "Failed to switch message status",
         variant:"destructive"
       })
     }
