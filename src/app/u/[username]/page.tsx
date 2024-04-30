@@ -24,7 +24,7 @@ import * as z from 'zod';
 import { ApiResponse } from '@/types/ApiResponse';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { messageSchema } from '@/schemas/messageSchema';
+import { messageSchemaVal } from '@/schemas/messageSchema';
 
 const specialChar = '||';
 
@@ -49,8 +49,8 @@ export default function SendMessage() {
     initialCompletion: initialMessageString,
   });
 
-  const form = useForm<z.infer<typeof messageSchema>>({
-    resolver: zodResolver(messageSchema),
+  const form = useForm<z.infer<typeof messageSchemaVal>>({
+    resolver: zodResolver(messageSchemaVal),
   });
 
   const messageContent = form.watch('content');
@@ -61,7 +61,7 @@ export default function SendMessage() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = async (data: z.infer<typeof messageSchema>) => {
+  const onSubmit = async (data: z.infer<typeof messageSchemaVal>) => {
     setIsLoading(true);
     try {
       const response = await axios.post<ApiResponse>('/api/send-message', {
