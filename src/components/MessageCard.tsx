@@ -29,7 +29,7 @@ type MessageCardProps = {
   onMessageDelete: (messageId: string) => void
 }
 
-const MessageCard = ({message,onMessageDelete} : MessageCardProps) => {
+export const MessageCard = ({message,onMessageDelete} : MessageCardProps) => {
 
   const { toast } = useToast();
   const handleDeleteConfirm = async () => {
